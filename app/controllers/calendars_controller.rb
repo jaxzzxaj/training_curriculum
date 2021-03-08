@@ -8,8 +8,12 @@ class CalendarsController < ApplicationController
 
   # 予定の保存
   def create
-    Plan.create(plan_params)
-    redirect_to action: :index
+    @comment = Plan.create(plan_params)
+    if @comment.save
+      redirect_to action: :index
+    else
+      render :index
+    end
   end
 
   private
@@ -37,6 +41,5 @@ class CalendarsController < ApplicationController
       days = { :month => (@todays_date + x).month, :date => (@todays_date+x).day, :plans => today_plans}
       @week_days.push(days)
     end
-
   end
 end
